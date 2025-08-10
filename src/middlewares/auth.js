@@ -12,7 +12,7 @@ const userAuth = async (req, res, next) => {
     // const { _id } = decodedMessage;
     // const user = await User.findById(_id); //alreaddy checked in middleware
 
-    const decodedObj = jwt.verify(token, "DEV@TINDER11");
+    const decodedObj = jwt.verify(token, process.env.JWT_SECRET);
     const { _id } = decodedObj;
 
     const user = await User.findById(_id);

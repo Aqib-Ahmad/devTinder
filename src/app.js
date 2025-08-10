@@ -179,7 +179,6 @@
 
 const express = require("express");
 const app = express();
-const PORT = 5000;
 const connectDb = require("./config/database");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth");
@@ -188,6 +187,8 @@ const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 var cors = require("cors");
 
+// env
+require("dotenv").config();
 // connecting with frontend
 
 app.use(
@@ -210,8 +211,8 @@ app.use("/", userRouter);
 connectDb()
   .then(() => {
     console.log("database connecting successfully ");
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is running on port ${process.env.PORT}`);
     });
   })
   .catch(() => {
