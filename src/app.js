@@ -185,8 +185,11 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
-var cors = require("cors");
+const http = require("http");
 
+// cors
+var cors = require("cors");
+const initializingSocket = require("./utils/Socket");
 // env
 require("dotenv").config();
 // connecting with frontend
@@ -208,10 +211,13 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
+
+const server = http.createServer(app);
+initializingSocket(server);
 connectDb()
   .then(() => {
     console.log("database connecting successfully ");
-    app.listen(process.env.PORT, () => {
+    server.listen(process.env.PORT, () => {
       console.log(`Server is running on port ${process.env.PORT}`);
     });
   })
