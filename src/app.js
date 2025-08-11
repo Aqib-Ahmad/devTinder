@@ -213,7 +213,7 @@ app.use("/", requestRouter);
 app.use("/", userRouter);
 
 const server = http.createServer(app);
-initializingSocket(server);
+initializingSocket({ server });
 connectDb()
   .then(() => {
     console.log("database connecting successfully ");
