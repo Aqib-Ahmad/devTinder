@@ -18,7 +18,12 @@ authRouter.post("/signup", async (req, res) => {
     });
     const savesuser = await user.save();
     const token = await savesuser.getJWT();
-    res.cookie("token", token, { expires: new Date(Date.now() + 900000) });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      expires: new Date(Date.now() + 900000),
+    });
     res.json({ message: "user addes successfully", data: savesuser });
   } catch (error) {
     res.status(400).send("Error in signup :" + error.message);
@@ -37,7 +42,13 @@ authRouter.post("/login", async (req, res) => {
     const isPawordValid = await user.validatePassword(password);
     if (isPawordValid) {
       const token = await user.getJWT(); // from schema
-      res.cookie("token", token, { expires: new Date(Date.now() + 900000) });
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        expires: new Date(Date.now() + 900000),
+      });
+      // res.cookie("token", token, { expires: new Date(Date.now() + 900000) });
       // res.json({ message: "User login successfull..", user: user });
       res.send(user);
     } else {
